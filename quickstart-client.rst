@@ -21,3 +21,14 @@ shares.needed, shares.happy, shares.total
 	These directives set how many redundant copies of your data you would like to have stored in the cloud. The defaults should provide suitable redundancy, or if you are joining a small grid you may want to set smaller values. Ask other grid members for the values they use.
 
 We can leave the rest of the file as-is for now. Now that Tahoe is configured, run ``tahoe start`` to start the client running in the background.
+
+Keeping your stuff
+------------------
+
+Note that Tahoe storage nodes will likely be set to 'garbage collect', meaning that they will automatically discard objects that no longer seem to be in use. You don't want your stuff to be garbage collected, so you need to make sure that it always looks like it's in use. A good way to do this is to set a cron job that will regularly check (access) the objects. For example:
+
+::
+
+	30 12 1,15 * * tahoe deep-check --add-lease --verbose tahoe:
+
+This cron job will check everything under your 'tahoe' alias, updating the lease time. It will run twice a month at an arbitrary time.
