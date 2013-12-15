@@ -5,10 +5,11 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-
+   
    intro
    install
    quickstart-client
+   using-tahoe
 
 Welcome to Tahoe
 ----------------
