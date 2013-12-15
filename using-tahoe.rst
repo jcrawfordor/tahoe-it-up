@@ -42,3 +42,14 @@ You can also create additional aliases by running ``tahoe add-alias <name> <writ
 To recap, in general the Tahoe command line tool takes tahoe paths in the form of ``<alias>:<path>``. Alias is one of the aliases you've set or can be left off entirely, in which case the alias 'tahoe' is assumed. The path is a slash-seperated path rooted wherever the alias points.
 
 Finally, you can always run ``tahoe --help`` to see a list of all commands, and any command with the ``--help`` option to see usage instructions (e.g. ``tahoe put --help`` to see how to use the put command).
+
+Keeping your stuff
+------------------
+
+Note that Tahoe storage nodes will likely be set to 'garbage collect', meaning that they will automatically discard objects that no longer seem to be in use. You don't want your stuff to be garbage collected, so you need to make sure that it always looks like it's in use. A good way to do this is to set a cron job that will regularly check (access) the objects. For example:
+
+::
+
+	30 12 1,15 * * tahoe deep-check --add-lease --verbose tahoe:
+
+This cron job will check everything under your 'tahoe' alias, updating the lease time. It will run twice a month at an arbitrary time.
